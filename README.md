@@ -20,6 +20,9 @@ This is a sample project based on the WT9932P4_Mini_A1 development board, featur
 ### Hardware Requirements
 
 - **Development Board**: WT9932P4_Mini_A1 development board
+
+![WT9932P4-MINI-A1](./docs/WT9932P4-MINI-A1.png)
+
 - **Display**: MIPI DSI interface display (ek79007)
 - **Camera**: OV5647
 - **Speaker**: 3W
