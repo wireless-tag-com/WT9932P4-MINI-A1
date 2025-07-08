@@ -238,7 +238,7 @@ extern "C" void app_main(void)
     bsp_display_unlock();
 #endif
 
-#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO
+#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO || CONFIG_EXAMPLE_USE_ETH_DEMO
     ip_addr_t target_addr;
     memset(&target_addr, 0, sizeof(target_addr));
     const char *ping_addr_s = "8.8.8.8";
