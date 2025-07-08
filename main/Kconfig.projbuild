@@ -1,0 +1,26 @@
+menu "Example Configurations"
+    config EXAMPLE_USE_LCD_DEMO
+        bool "Use lcd demo"
+        default y
+        help 
+            Use LCD demo function
+
+    config EXAMPLE_USE_CAMERA_DEMO
+        bool "Use camera demo"
+        default n
+        depends on EXAMPLE_USE_LCD_DEMO
+        help 
+            Use camera demo function
+
+    config EXAMPLE_USE_4G_EC20_DEMO
+        bool "Use 4G EC20 demo"
+        default n
+        help
+            Use 4G EC20 demo function
+
+    config EXAMPLE_USE_ETH_DEMO
+        bool "Use eth demo"
+        default n
+        help
+            Use eth demo function
+endmenu
