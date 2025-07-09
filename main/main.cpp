@@ -20,7 +20,6 @@
 
 #if CONFIG_EXAMPLE_USE_4G_EC20_DEMO
 #include "usbh_modem_board.h"
-#include "ping/ping_sock.h"
 #endif
 
 #if CONFIG_EXAMPLE_USE_ETH_DEMO
@@ -30,13 +29,17 @@
 #include "esp_netif.h"
 #endif
 
+#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO || CONFIG_EXAMPLE_USE_ETH_DEMO
+#include "ping/ping_sock.h"
+#endif
+
 #if CONFIG_EXAMPLE_USE_MSC_USB_DEMO
 #include "msc_usb.h"
 #endif
 
 static const char *TAG = "main";
 
-#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO
+#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO || CONFIG_EXAMPLE_USE_ETH_DEMO
 static void on_modem_event(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     if (event_base == MODEM_BOARD_EVENT) {
