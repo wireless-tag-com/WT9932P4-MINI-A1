@@ -39,7 +39,7 @@
 
 static const char *TAG = "main";
 
-#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO || CONFIG_EXAMPLE_USE_ETH_DEMO
+#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO
 static void on_modem_event(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     if (event_base == MODEM_BOARD_EVENT) {
@@ -66,7 +66,9 @@ static void on_modem_event(void *arg, esp_event_base_t event_base, int32_t event
         }
     }
 }
+#endif
 
+#if CONFIG_EXAMPLE_USE_4G_EC20_DEMO || CONFIG_EXAMPLE_USE_ETH_DEMO
 static void on_ping_success(esp_ping_handle_t hdl, void *args)
 {
     uint8_t ttl;
