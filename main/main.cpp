@@ -30,6 +30,10 @@
 #include "esp_netif.h"
 #endif
 
+#if CONFIG_EXAMPLE_USE_MSC_USB_DEMO
+#include "msc_usb.h"
+#endif
+
 static const char *TAG = "main";
 
 #if CONFIG_EXAMPLE_USE_4G_EC20_DEMO
@@ -150,6 +154,10 @@ extern "C" void app_main(void)
     modem_config_t modem_config = MODEM_DEFAULT_CONFIG();
     modem_config.handler = on_modem_event;
     modem_board_init(&modem_config);
+#endif
+
+#if CONFIG_EXAMPLE_USE_MSC_USB_DEMO
+    app_msc_usb_init();
 #endif
 
 #if CONFIG_EXAMPLE_USE_ETH_DEMO

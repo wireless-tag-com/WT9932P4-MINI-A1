@@ -19,3 +19,5 @@ dependencies:
     version: "*"
     rules:
       - if: "target in [esp32p4]"
+
+  usb_host_msc: "^1.1.1"
