@@ -304,7 +304,8 @@ static void speed_test(int slot)
 static void usb_task(void *args)
 {
     const usb_host_config_t host_config = { .intr_flags = ESP_INTR_FLAG_LEVEL1 };
-    ESP_ERROR_CHECK(usb_host_install(&host_config));
+    // ESP_ERROR_CHECK(usb_host_install(&host_config));
+    usb_host_install(&host_config);
 
     const msc_host_driver_config_t msc_config = {
         .create_backround_task = true,
