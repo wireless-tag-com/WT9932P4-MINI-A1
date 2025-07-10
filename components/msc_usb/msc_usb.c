@@ -20,7 +20,6 @@
 static const char *TAG = "MSC_USB";
 
 #define MNT_PATH        "/usb"     // Base mount path prefix, devices will be mounted as /usb0, /usb1, /usb2...
-// #define APP_QUIT_PIN    GPIO_NUM_0 // BOOT button on most boards
 #define BUFFER_SIZE     4096
 #define MAX_MSC_DEVICES CONFIG_FATFS_VOLUME_COUNT
 typedef struct {
@@ -135,22 +134,6 @@ static void free_all_msc_devices(void)
         }
     }
 }
-
-// static void gpio_cb(void *arg)
-// {
-//     BaseType_t xTaskWoken = pdFALSE;
-//     app_message_t message = {
-//         .id = APP_QUIT,
-//     };
-
-//     if (app_queue) {
-//         xQueueSendFromISR(app_queue, &message, &xTaskWoken);
-//     }
-
-//     if (xTaskWoken == pdTRUE) {
-//         portYIELD_FROM_ISR();
-//     }
-// }
 
 static inline int8_t find_usb_addr_by_handle(msc_host_device_handle_t handle)
 {
@@ -411,18 +394,6 @@ void app_msc_usb_init(void)
 
     BaseType_t task_created = xTaskCreate(usb_task, "usb_task", 4096, NULL, 2, NULL);
     assert(task_created);
-
-    // Init BOOT button: Pressing the button simulates app request to exit
-    // It will disconnect the USB device and uninstall the MSC drivers and USB Host Lib
-    // const gpio_config_t input_pin = {
-    //     .pin_bit_mask = BIT64(APP_QUIT_PIN),
-    //     .mode = GPIO_MODE_INPUT,
-    //     .pull_up_en = GPIO_PULLUP_ENABLE,
-    //     .intr_type = GPIO_INTR_NEGEDGE,
-    // };
-    // ESP_ERROR_CHECK(gpio_config(&input_pin));
-    // ESP_ERROR_CHECK(gpio_install_isr_service(ESP_INTR_FLAG_LEVEL1));
-    // ESP_ERROR_CHECK(gpio_isr_handler_add(APP_QUIT_PIN, gpio_cb, NULL));
 
     ESP_LOGI(TAG, "Waiting for USB flash drive to be connected");
 
