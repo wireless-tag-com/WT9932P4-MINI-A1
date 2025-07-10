@@ -14,6 +14,7 @@ This is a sample project based on the WT9932P4_Mini_A1 development board, featur
 - 🖥️ **High-definition Display** - Supports MIPI DSI interface display
 - 🌐 **Network Connectivity** - Ethernet and 4G module support
 - 📷 **Camera Support** - 1280x960 resolution camera
+- 💾 **USB Storage Support** - MSC USB mass storage device read/write
 
 ## Environment Setup
 
@@ -29,6 +30,8 @@ This is a sample project based on the WT9932P4_Mini_A1 development board, featur
 - **Network Options**: 
   - Ethernet PHY (IP101) with RJ45 connector
   - 4G EC20 module (optional)
+- **Storage Options**:
+  - USB interface supporting MSC mass storage devices
 
 ### Software Environment Setup
 
@@ -115,6 +118,43 @@ Enable 4G support in menuconfig:
 (Top) → Example Configuration → Use 4G EC20 demo
 ```
 
+### MSC USB Storage Usage
+
+#### Description
+
+- Support for hot-plug USB mass storage devices (MSC)
+- Automatic mounting to virtual file system (VFS)
+- Support for multiple USB storage devices simultaneously
+- Complete file system functionality including file read/write and directory operations
+- Includes read/write speed testing and device information display
+
+#### Features
+
+- **Automatic Detection and Mounting**: USB devices are automatically detected and mounted to `/usb0`, `/usb1`, etc. when plugged in
+- **Multi-device Support**: Simultaneous support for multiple USB storage devices
+- **File Operations**: Support for creating, reading, writing, and deleting files and directories
+- **Device Information**: Display device capacity, vendor ID, product ID, and other information
+- **Performance Testing**: Built-in read/write speed testing functionality
+
+#### Usage
+
+1. Enable MSC USB support in menuconfig:
+
+```bash
+(Top) → Example Configuration → Use MSC USB demo
+```
+
+2. After compiling and flashing the firmware, plug in a USB storage device
+3. The system will automatically detect the device and mount it to the `/usb0` directory
+4. You can view device information and file operation status through serial log output
+
+#### Supported Devices
+
+- USB 2.0/3.0 flash drives
+- USB external hard drives
+- USB card readers (with storage cards)
+- Other storage devices that comply with USB MSC standards
+
 ## Project Directory Structure
 
 ```
@@ -128,7 +168,8 @@ phone_wt9932p4_mini_a1/
 │   │   ├── calculator/             # Calculator application
 │   │   └── camera/                 # Camera application
 │   ├── human_face_detect/          # Face detection component
-│   └── pedestrian_detect/          # Pedestrian detection component
+│   ├── pedestrian_detect/          # Pedestrian detection component
+│   └── msc_usb/                    # MSC USB storage device component
 ├── CMakeLists.txt                  # Top-level build configuration
 ├── sdkconfig.defaults              # Default SDK configuration
 ├── partitions.csv                  # Partition table configuration
@@ -147,6 +188,9 @@ phone_wt9932p4_mini_a1/
 #### 3. AI Vision Components
 - **human_face_detect/**: Face detection algorithm implementation
 - **pedestrian_detect/**: Pedestrian detection algorithm implementation
+
+#### 4. Storage and Communication Components
+- **msc_usb/**: MSC USB mass storage device driver supporting hot-plug and multi-device management
 
 ## Partition Configuration
 
@@ -168,6 +212,7 @@ Configure through `idf.py menuconfig`:
 - Display parameter settings
 - Camera resolution configuration
 - Network configuration (Ethernet, 4G)
+- MSC USB storage device support
 
 ## Component Library Version Requirements
 
@@ -202,6 +247,11 @@ Configure through `idf.py menuconfig`:
 | Component Name | Version Requirement | Target Chips | Description |
 |----------------|-------------------|--------------|-------------|
 | **espressif/esp-dl** | 3.1.0 | ESP32S3/P4 | ESP deep learning inference framework |
+
+### USB and Storage Components
+| Component Name | Version Requirement | Target Chips | Description |
+|----------------|-------------------|--------------|-------------|
+| **usb_host_msc** | 1.1.1 | ESP32S2/S3/P4 | USB host MSC storage device driver |
 
 ### Network and Communication Components
 | Component Name | Version Requirement | Target Chips | Description |
@@ -618,4 +668,45 @@ I (23565) main: ETHGW:192.168.10.15
 I (23568) main: ~~~~~~~~~~~
 I (30860) main: Ping addr 8.8.8.8 Restart..
 I (30871) main: 64 bytes from 8.8.8.8 icmp_seq=1 ttl=114 time=11 ms
+
+## MSC USB Log Example
+
+When a USB storage device is plugged in, you will see log output similar to the following:
+
+```bash
+I (15234) MSC_USB: Waiting for USB flash drive to be connected
+I (18456) MSC_USB: MSC device connected (usb_addr=1)
+*** Device descriptor ***
+bLength 18
+bDescriptorType 1
+bcdUSB 2.00
+bDeviceClass 0x0
+bDeviceSubClass 0x0
+bDeviceProtocol 0x0
+bMaxPacketSize0 64
+idVendor 0x0951
+idProduct 0x1666
+bcdDevice 1.10
+iManufacturer 1
+iProduct 2
+iSerialNumber 3
+bNumConfigurations 1
+Device info:
+	 Capacity: 7628 MB
+	 Sector size: 512
+	 Sector count: 15625216
+	 PID: 0x1666
+	 VID: 0x0951
+I (18567) MSC_USB: Listing contents of /usb0
+/usb0/.
+/usb0/..
+I (18589) MSC_USB: Creating file
+I (18592) MSC_USB: Reading file
+I (18595) MSC_USB: Read from file '/usb0/esp/test.txt': 'Hello World!'
+I (18602) MSC_USB: Writing to file /usb0/esp/dummy
+I (19234) MSC_USB: Write speed 8.45 MiB/s
+I (19456) MSC_USB: Reading from file /usb0/esp/dummy
+I (19678) MSC_USB: Read speed 12.34 MiB/s
+I (19689) MSC_USB: Example finished, you can disconnect the USB flash drive
+```
 ```

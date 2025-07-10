@@ -14,6 +14,7 @@
 - 🖥️ **高清显示** - 支持MIPI DSI接口显示屏
 - 🌐 **网络连接** - 以太网和4G模块支持
 - 📷 **摄像头支持** - 1280x960分辨率摄像头
+- 💾 **USB存储支持** - MSC USB大容量存储设备读写
 
 ## 环境搭建
 
@@ -29,6 +30,8 @@
 - **网络选项**: 
   - 以太网PHY (IP101)，带RJ45接口
   - 4G EC20模块（可选）
+- **存储选项**:
+  - USB接口，支持MSC大容量存储设备
 
 ### 软件环境搭建
 
@@ -115,6 +118,43 @@ idf.py monitor
 (Top) → Example Configuration → Use 4G EC20 demo
 ```
 
+### MSC USB存储使用
+
+#### 说明
+
+- 支持USB大容量存储设备（MSC）的热插拔
+- 自动挂载到虚拟文件系统（VFS）
+- 支持多个USB存储设备同时使用
+- 提供文件读写、目录操作等完整文件系统功能
+- 包含读写速度测试和设备信息显示
+
+#### 功能特性
+
+- **自动检测和挂载**: 插入USB设备时自动检测并挂载到`/usb0`, `/usb1`等目录
+- **多设备支持**: 同时支持多个USB存储设备
+- **文件操作**: 支持创建、读取、写入、删除文件和目录
+- **设备信息**: 显示设备容量、厂商ID、产品ID等信息
+- **性能测试**: 内置读写速度测试功能
+
+#### 使用方法
+
+1. 在menuconfig中启用MSC USB支持：
+
+```bash
+(Top) → Example Configuration → Use MSC USB demo
+```
+
+2. 编译并烧录固件后，插入USB存储设备
+3. 系统会自动检测设备并挂载到`/usb0`目录
+4. 可以通过串口日志查看设备信息和文件操作状态
+
+#### 支持的设备
+
+- USB 2.0/3.0 U盘
+- USB外接硬盘
+- USB读卡器（带存储卡）
+- 其他符合USB MSC标准的存储设备
+
 ## 工程目录介绍
 
 ```
@@ -128,7 +168,8 @@ phone_wt9932p4_mini_a1/
 │   │   ├── calculator/             # 计算器应用
 │   │   └── camera/                 # 摄像头应用
 │   ├── human_face_detect/          # 人脸检测组件
-│   └── pedestrian_detect/          # 行人检测组件
+│   ├── pedestrian_detect/          # 行人检测组件
+│   └── msc_usb/                    # MSC USB存储设备组件
 ├── CMakeLists.txt                  # 顶层构建配置
 ├── sdkconfig.defaults              # 默认SDK配置
 ├── partitions.csv                  # 分区表配置
@@ -147,6 +188,9 @@ phone_wt9932p4_mini_a1/
 #### 3. AI视觉组件
 - **human_face_detect/**: 人脸检测算法实现
 - **pedestrian_detect/**: 行人检测算法实现
+
+#### 4. 存储和通信组件
+- **msc_usb/**: MSC USB大容量存储设备驱动，支持热插拔和多设备管理
 
 ## 分区配置
 
@@ -168,6 +212,7 @@ idf.py monitor
 - 显示屏参数设置
 - 摄像头分辨率配置
 - 网络配置（以太网、4G）
+- MSC USB存储设备支持
 
 ## 组件库版本要求
 
@@ -207,6 +252,11 @@ idf.py monitor
 | 组件名称 | 版本要求 | 目标芯片 | 描述 |
 |---------|---------|----------|------|
 | **espressif/esp-dl** | 3.1.0 | ESP32S3/P4 | ESP深度学习推理框架 |
+
+### USB和存储组件
+| 组件名称 | 版本要求 | 目标芯片 | 描述 |
+|---------|---------|----------|------|
+| **usb_host_msc** | 1.1.1 | ESP32S2/S3/P4 | USB主机MSC存储设备驱动 |
 
 ### 网络和通信组件
 | 组件名称 | 版本要求 | 目标芯片 | 描述 |
@@ -629,4 +679,45 @@ I (23565) main: ETHGW:192.168.10.15
 I (23568) main: ~~~~~~~~~~~
 I (30860) main: Ping addr 8.8.8.8 Restart..
 I (30871) main: 64 bytes from 8.8.8.8 icmp_seq=1 ttl=114 time=11 ms
+
+## MSC USB 日志示例
+
+当插入USB存储设备时，您会看到类似以下的日志输出：
+
+```bash
+I (15234) MSC_USB: Waiting for USB flash drive to be connected
+I (18456) MSC_USB: MSC device connected (usb_addr=1)
+*** Device descriptor ***
+bLength 18
+bDescriptorType 1
+bcdUSB 2.00
+bDeviceClass 0x0
+bDeviceSubClass 0x0
+bDeviceProtocol 0x0
+bMaxPacketSize0 64
+idVendor 0x0951
+idProduct 0x1666
+bcdDevice 1.10
+iManufacturer 1
+iProduct 2
+iSerialNumber 3
+bNumConfigurations 1
+Device info:
+	 Capacity: 7628 MB
+	 Sector size: 512
+	 Sector count: 15625216
+	 PID: 0x1666
+	 VID: 0x0951
+I (18567) MSC_USB: Listing contents of /usb0
+/usb0/.
+/usb0/..
+I (18589) MSC_USB: Creating file
+I (18592) MSC_USB: Reading file
+I (18595) MSC_USB: Read from file '/usb0/esp/test.txt': 'Hello World!'
+I (18602) MSC_USB: Writing to file /usb0/esp/dummy
+I (19234) MSC_USB: Write speed 8.45 MiB/s
+I (19456) MSC_USB: Reading from file /usb0/esp/dummy
+I (19678) MSC_USB: Read speed 12.34 MiB/s
+I (19689) MSC_USB: Example finished, you can disconnect the USB flash drive
+```
 ```
