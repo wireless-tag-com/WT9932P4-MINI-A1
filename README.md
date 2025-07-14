@@ -6,6 +6,10 @@
 
 This is a sample project based on the WT9932P4_Mini_A1 development board, featuring a smartphone-like user interface built with the ESP-Brookesia UI framework. The project integrates various application functions including audio/video playback, camera, games, calculator, and supports computer vision features such as face detection and pedestrian detection.
 
+- [WT9932P4-MINI-A1_Guide](./docs/WT9932P4-MINI-A1_Guide_en_v1.0.pdf)
+- [WT9932P4-MINI-A1 development Board schematics](./docs/WT9932P4-MINI-A1-1V1.pdf)
+- [Full-featured test firmware](./firmware/all_function)
+
 ## Key Features
 
 - 🎯 **Smartphone-style UI Interface** - Built on ESP-Brookesia framework

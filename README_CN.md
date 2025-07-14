@@ -6,6 +6,10 @@
 
 这是一个基于WT9932P4_Mini_A1开发板的示例项目。该项目集成了多种功能，包括MIPI DSI显示屏、摄像头、4G CAT.1、以太网等，并支持摄像头的人脸检测和行人检测等功能。
 
+- [WT9932P4-MINI-A1开发板使用指南](./docs/WT9932P4-MINI-A1开发板使用指南v1.0.pdf)
+- [WT9932P4-MINI-A1开发板原理图](./docs/WT9932P4-MINI-A1-1V1.pdf)
+- [全功能测试固件](./firmware/all_function)
+
 ## 主要特性
 
 - 🎯 **智能手机式UI界面** - 基于ESP-Brookesia框架
