@@ -1,13 +1,13 @@
-# WT9932P4 Mini 示例项目
+# WT9932P4 Mini A1 示例项目
 
 [英文版本](./README.md)
 
 ## 项目简介
 
-这是一个基于WT9932P4_Mini开发板的示例项目。该项目集成了多种功能，包括MIPI DSI显示屏、摄像头、4G CAT.1、以太网等，并支持摄像头的人脸检测和行人检测等功能。
+这是一个基于WT9932P4_Mini_A1开发板的示例项目。该项目集成了多种功能，包括MIPI DSI显示屏、摄像头、4G CAT.1、以太网等，并支持摄像头的人脸检测和行人检测等功能。
 
-- [WT9932P4-MINI开发板使用指南](./docs/ESP32-P4-MINI开发板使用指南v1.0.pdf)
-- [WT9932P4-MINI开发板原理图](./docs/ESP32-P4-MINI-SCH.pdf)
+- [WT9932P4-MINI-A1开发板使用指南](./docs/ESP32-P4-MINI开发板使用指南v1.0.pdf)
+- [WT9932P4-MINI-A1开发板原理图](./docs/ESP32-P4-MINI-SCH.pdf)
 - [全功能测试固件](./firmware/all_function)
 
 ## 主要特性
@@ -24,9 +24,9 @@
 
 ### 硬件要求
 
-- **开发板**: WT9932P4_Mini开发板
+- **开发板**: WT9932P4_Mini_A1开发板
 
-![WT9932P4-MINI](./docs/WT9932P4-MINI.png)
+![WT9932P4-MINI-A1](./docs/WT9932P4-MINI-A1.png)
 
 - **显示屏**: MIPI DSI接口显示屏(ek79007)
 - **摄像头**: OV5647
@@ -48,7 +48,7 @@
 
 ```bash
 git clone <项目仓库地址>
-cd phone_wt9932p4_mini
+cd phone_wt9932p4_mini_a1
 ```
 
 #### 3. 配置环境变量
@@ -162,7 +162,7 @@ idf.py monitor
 ## 工程目录介绍
 
 ```
-phone_wt9932p4_mini/
+phone_wt9932p4_mini_a1/
 ├── main/                           # 主程序源码
 │   ├── main.cpp                    # 程序入口点
 │   ├── CMakeLists.txt              # 主程序构建配置
@@ -375,7 +375,7 @@ I (1740) esp_psram: SPI SRAM memory test OK
 I (1749) cpu_start: Pro cpu start user code
 I (1749) cpu_start: cpu freq: 360000000 Hz
 I (1750) app_init: Application information:
-I (1750) app_init: Project name:     wt9932p4_mini
+I (1750) app_init: Project name:     wt9932p4_mini_a1
 I (1754) app_init: App version:      1.0.1
 I (1758) app_init: Compile time:     Jul  7 2025 17:54:12
 I (1763) app_init: ELF file SHA256:  78740a42f...
@@ -400,12 +400,12 @@ sdio_mempool_create free:28769416 min-free:28769416 lfb-def:28311552 lfb-8bit:28
 
 I (1875) H_API: ** add_esp_wifi_remote_channels **
 I (1879) transport: Add ESP-Hosted channel IF[1]: S[0] Tx[0x4800cc1c] Rx[0x4801bb26]
---- 0x4800cc1c: transport_drv_sta_tx at /home/ferry/workpro/phone_wt9932p4_mini/managed_components/espressif__esp_hosted/host/drivers/transport/transport_drv.c:219
---- 0x4801bb26: esp_wifi_remote_channel_rx at /home/ferry/workpro/phone_wt9932p4_mini/managed_components/espressif__esp_wifi_remote/esp_wifi_remote_net.c:19
+--- 0x4800cc1c: transport_drv_sta_tx at /home/ferry/workpro/phone_wt9932p4_mini_a1/managed_components/espressif__esp_hosted/host/drivers/transport/transport_drv.c:219
+--- 0x4801bb26: esp_wifi_remote_channel_rx at /home/ferry/workpro/phone_wt9932p4_mini_a1/managed_components/espressif__esp_wifi_remote/esp_wifi_remote_net.c:19
 
 I (1886) transport: Add ESP-Hosted channel IF[2]: S[0] Tx[0x4800cb62] Rx[0x4801bb26]
---- 0x4800cb62: transport_drv_ap_tx at /home/ferry/workpro/phone_wt9932p4_mini/managed_components/espressif__esp_hosted/host/drivers/transport/transport_drv.c:249
---- 0x4801bb26: esp_wifi_remote_channel_rx at /home/ferry/workpro/phone_wt9932p4_mini/managed_components/espressif__esp_wifi_remote/esp_wifi_remote_net.c:19
+--- 0x4800cb62: transport_drv_ap_tx at /home/ferry/workpro/phone_wt9932p4_mini_a1/managed_components/espressif__esp_hosted/host/drivers/transport/transport_drv.c:249
+--- 0x4801bb26: esp_wifi_remote_channel_rx at /home/ferry/workpro/phone_wt9932p4_mini_a1/managed_components/espressif__esp_wifi_remote/esp_wifi_remote_net.c:19
 
 I (1894) main_task: Started on CPU0
 I (1897) main_task: Calling app_main()
